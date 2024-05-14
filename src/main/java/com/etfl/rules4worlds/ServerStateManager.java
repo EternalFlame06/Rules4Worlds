@@ -55,11 +55,15 @@ class ServerStateManager extends PersistentState {
 
         PersistentStateManager persistentStateManager = world.getPersistentStateManager();
 
-        return persistentStateManager.getOrCreate(
+        var state = persistentStateManager.getOrCreate(
                 new Type<>(
                         () -> new ServerStateManager(configManager),
                         (nbt, registryLookup) -> ServerStateManager.fromNbt(nbt, configManager),
                         null
-                ), configManager.modID);
+                ), configManager.modID + "_rules");
+
+        state.markDirty();
+
+        return state;
     }
 }

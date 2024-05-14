@@ -28,9 +28,9 @@ public class ConfigManager {
     private final YamlConfigFileManager configFileManager;
 
     /**
-     * Creates a new ConfigManager with the provided modID.
-     * Uses the modID as baseCommand for the config.
-     * Should only be instantiated during initialization of the mod.
+     * Creates a new {@code ConfigManager} with the provided {@code modID}.
+     * Uses the {@code modID} as {@code baseCommand} for the config.
+     * The {@code modID} is used for the config file name and for the data file name of the {@link ServerStateManager}. Should only be instantiated during initialization of the mod.
      * @param modID the modID of the mod
      * @see ConfigManager#ConfigManager(String, String)
      */
@@ -39,8 +39,8 @@ public class ConfigManager {
     }
 
     /**
-     * Creates a new ConfigManager with the provided modID and baseCommand.
-     * Should only be instantiated during initialization of the mod.
+     * Creates a new {@code ConfigManager} with the provided {@code modID} and {@code baseCommand}.
+     * The {@code modID} is used for the config file name and for the data file name of the {@link ServerStateManager}. Should only be instantiated during initialization of the mod.
      * @param modID the modID of the mod
      * @param baseCommand the base command for the config
      */
