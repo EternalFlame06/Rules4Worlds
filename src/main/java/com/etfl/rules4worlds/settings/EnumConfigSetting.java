@@ -70,7 +70,7 @@ public class EnumConfigSetting<T extends Enum<T> & EnumSettingType<T>> implement
     public void validateOrSetDefault(@NotNull Map<String, Object> map) {
         T value = this.value.fromString(map.getOrDefault(name, defaultValue).toString());
 
-        if (value != null) map.put(name, defaultValue);
+        if (value != null) map.put(name, defaultValue.toString());
     }
 
     @Override
