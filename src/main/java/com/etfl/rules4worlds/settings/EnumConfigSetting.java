@@ -36,17 +36,19 @@ public class EnumConfigSetting<T extends Enum<T> & EnumSettingType<T>> implement
 
     @Override
     public void initialize(@NotNull LiteralArgumentBuilder<ServerCommandSource> command) {
-        command.then(literal(name)
-                .executes(this::get))
+        var settingCommand = literal(name)
+                .executes(this::get)
                 .then(literal("default")
                         .requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(2))
                         .executes(this::reset));
 
         for (T value : value.getDeclaringClass().getEnumConstants()) {
-            command.then(literal(value.toString())
+            settingCommand.then(literal(value.toString())
                     .requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(2))
                     .executes(context -> set(context, value)));
         }
+
+        command.then(settingCommand);
     }
 
     @Override
@@ -70,7 +72,8 @@ public class EnumConfigSetting<T extends Enum<T> & EnumSettingType<T>> implement
     public void validateOrSetDefault(@NotNull Map<String, Object> map) {
         T value = this.value.fromString(map.getOrDefault(name, defaultValue).toString());
 
-        if (value != null) map.put(name, defaultValue.toString());
+        if (value != null) map.put(name, value.toString());
+        else map.put(name, defaultValue.toString());
     }
 
     @Override
@@ -96,7 +99,6 @@ public class EnumConfigSetting<T extends Enum<T> & EnumSettingType<T>> implement
     }
 
     private int get(CommandContext<ServerCommandSource> context) {
-
         context.getSource().sendFeedback(
                 () -> Text.literal("ConfigSetting" + name + " is currently set to: " + value.toString()).formatted(WHITE),
                 false);

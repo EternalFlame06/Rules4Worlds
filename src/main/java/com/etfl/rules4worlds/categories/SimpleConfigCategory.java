@@ -150,8 +150,9 @@ public class SimpleConfigCategory implements ConfigCategory {
     @Override
     @SuppressWarnings("unchecked")
     public void setDefaultSupplier(@NotNull Supplier<Map<String, Object>> supplier) {
+
         reset = () -> (Map<String, Object>) supplier.get().getOrDefault(name, Map.of());
 
-        components.forEach(component -> component.setDefaultSupplier(() -> (Map<String, Object>) supplier.get().get(name)));
+        components.forEach(component -> component.setDefaultSupplier(reset));
     }
 }

@@ -90,6 +90,8 @@ public class DoubleConfigSetting implements ConfigSetting<Double> {
         Object obj = map.getOrDefault(name, defaultValue);
         double value = (obj instanceof Number) ? ((Number) obj).doubleValue() : defaultValue;
 
+        if (!validator.test(value)) value = defaultValue;
+
         map.put(name, validator.test(value) ? value : defaultValue);
     }
 
@@ -117,7 +119,6 @@ public class DoubleConfigSetting implements ConfigSetting<Double> {
     }
 
     private int get(CommandContext<ServerCommandSource> context) {
-
         context.getSource().sendFeedback(
                 () -> Text.literal("ConfigSetting" + name + " is currently set to: " + value).formatted(WHITE),
                 false);
