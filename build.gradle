@@ -1,6 +1,7 @@
 plugins {
 	id 'fabric-loom' version '1.6-SNAPSHOT'
 	id 'maven-publish'
+	//id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
 version = project.mod_version
@@ -10,13 +11,7 @@ base {
 	archivesName = project.archives_base_name
 }
 
-repositories {
-	// Add repositories to retrieve artifacts from in here.
-	// You should only use this when depending on other mods because
-	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
-	// for more information about repositories.
-}
+repositories {}
 
 loom {
     splitEnvironmentSourceSets()
@@ -31,7 +26,7 @@ loom {
 }
 
 fabricApi {
-	configureDataGeneration()
+	//configureDataGeneration()
 }
 
 dependencies {
@@ -42,18 +37,22 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
-	implementation 'org.yaml:snakeyaml:2.0'
 }
 
+/*shadowJar {
+	configurations = [project.configurations.shadow]
+	mergeServiceFiles()
+	zip64 true
+}*/
+
 processResources {
-	inputs.property "version", project.version
+	inputs.property "mod_version", project.version
 	inputs.property "minecraft_version", project.minecraft_version
 	inputs.property "loader_version", project.loader_version
 	filteringCharset "UTF-8"
 
 	filesMatching("fabric.mod.json") {
-		expand "version": project.version,
+		expand "mod_version": project.version,
 				"minecraft_version": project.minecraft_version,
 				"loader_version": project.loader_version
 	}
@@ -88,12 +87,7 @@ publishing {
 		}
 	}
 
-	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
 	repositories {
 		mavenLocal()
-		// Add repositories to publish to here.
-		// Notice: This block does NOT have the same function as the block in the top level.
-		// The repositories here will be used for publishing your artifact, not for
-		// retrieving dependencies.
 	}
 }

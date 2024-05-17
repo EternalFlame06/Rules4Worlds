@@ -63,10 +63,7 @@ public class LongConfigSetting implements ConfigSetting<Long> {
 
                 .then(literal("default")
                         .requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(2))
-                        .executes(context -> {
-                            setToDefault();
-                            return 15;
-                        })
+                        .executes(this::reset)
                 )
         );
     }
@@ -92,6 +89,8 @@ public class LongConfigSetting implements ConfigSetting<Long> {
     public void validateOrSetDefault(@NotNull Map<String, Object> map) {
         Object obj = map.getOrDefault(name, defaultValue);
         long value = (obj instanceof Number) ? ((Number) obj).longValue() : defaultValue;
+
+        if (!validator.test(value)) value = defaultValue;
 
         map.put(name, validator.test(value) ? value : defaultValue);
     }
@@ -120,7 +119,6 @@ public class LongConfigSetting implements ConfigSetting<Long> {
     }
 
     private int get(CommandContext<ServerCommandSource> context) {
-
         context.getSource().sendFeedback(
                 () -> Text.literal("ConfigSetting" + name + " is currently set to: " + value).formatted(WHITE),
                 false);
@@ -144,5 +142,17 @@ public class LongConfigSetting implements ConfigSetting<Long> {
                 valueChanged);
 
         return value > 0 ? 15 : 0;
+    }
+
+    private int reset(CommandContext<ServerCommandSource> context) {
+        markDirty.run();
+
+        setToDefault();
+
+        context.getSource().sendFeedback(
+                () -> Text.literal("ConfigSetting" + name + " is currently set to: " + value).formatted(WHITE),
+                true);
+
+        return 15;
     }
 }

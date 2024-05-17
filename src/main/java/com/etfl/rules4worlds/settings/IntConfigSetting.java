@@ -89,7 +89,9 @@ public class IntConfigSetting implements ConfigSetting<Integer> {
     @Override
     public void validateOrSetDefault(@NotNull Map<String, Object> map) {
         Object obj = map.getOrDefault(name, defaultValue);
-        int value = (obj instanceof Integer) ? (int) obj : defaultValue;
+        int value = (obj instanceof Number) ? ((Number) obj).intValue() : defaultValue;
+
+        if (!validator.test(value)) value = defaultValue;
 
         map.put(name, validator.test(value) ? value : defaultValue);
     }
@@ -118,7 +120,6 @@ public class IntConfigSetting implements ConfigSetting<Integer> {
     }
 
     private int get(CommandContext<ServerCommandSource> context) {
-
         context.getSource().sendFeedback(
                 () -> Text.literal("ConfigSetting" + name + " is currently set to: " + value).formatted(WHITE),
                 false);

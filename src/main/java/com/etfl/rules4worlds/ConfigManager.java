@@ -1,6 +1,7 @@
 package com.etfl.rules4worlds;
 
-import com.etfl.rules4worlds.fileManagement.YamlConfigFileManager;
+import com.etfl.rules4worlds.fileManagement.ConfigFileManager;
+import com.etfl.rules4worlds.fileManagement.JsonConfigFileManager;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.nbt.NbtCompound;
@@ -25,7 +26,7 @@ public class ConfigManager {
     final String modID;
     private final String baseCommand;
     private final List<ConfigComponent> components = new ArrayList<>();
-    private final YamlConfigFileManager configFileManager;
+    private final ConfigFileManager configFileManager;
 
     /**
      * Creates a new {@code ConfigManager} with the provided {@code modID}.
@@ -47,7 +48,7 @@ public class ConfigManager {
     public ConfigManager(@NotNull @NotBlank final String modID, @NotNull @NotBlank final String baseCommand) {
         this.modID = modID;
         this.baseCommand = baseCommand;
-        this.configFileManager = new YamlConfigFileManager(modID + "_config", this::validateOrSetDefault);
+        this.configFileManager = new JsonConfigFileManager(modID + "_config", this::validateOrSetDefault);
 
         ServerLifecycleEvents.SERVER_STARTED.register(this::onServerStart);
     }

@@ -90,6 +90,8 @@ public class FloatConfigSetting implements ConfigSetting<Float> {
         Object obj = map.getOrDefault(name, defaultValue);
         float value = (obj instanceof Number) ? ((Number) obj).floatValue() : defaultValue;
 
+        if (!validator.test(value)) value = defaultValue;
+
         map.put(name, validator.test(value) ? value : defaultValue);
     }
 
