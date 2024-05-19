@@ -71,8 +71,8 @@ public class EnumConfigSetting<T extends Enum<T> & EnumSettingType<T>> implement
     @Override
     public boolean validateOrSetDefault(@NotNull Map<String, Object> map) {
         Object obj = map.get(name);
-        boolean changed = (obj == null) || this.value.fromString(obj.toString()) == null;
-        if (changed) map.put(name, defaultValue);
+        boolean changed = !(obj instanceof String) || this.value.fromString((String) obj) == null;
+        if (changed) map.put(name, defaultValue.toString());
         return changed;
     }
 

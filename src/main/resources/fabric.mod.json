@@ -14,9 +14,6 @@
 	"icon": "assets/icon.png",
 	"environment": "*",
 	"entrypoints": {
-		"main": [
-			"com.etfl.rules4worlds.Rules4Worlds"
-		]
 	},
 	"depends": {
 		"fabricloader": ">=${loader_version}",
