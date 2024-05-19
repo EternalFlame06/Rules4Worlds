@@ -1,7 +1,19 @@
 package com.etfl.rules4worlds;
 
-public class Rules4Worlds /*implements ModInitializer*/ {
-    /*public static final String MOD_ID = "rules4worlds";
+import com.etfl.rules4worlds.categories.ConfigCategory;
+import com.etfl.rules4worlds.categories.SimpleConfigCategory;
+import com.etfl.rules4worlds.settings.BoolConfigSetting;
+import com.etfl.rules4worlds.settings.IntConfigSetting;
+import com.mojang.brigadier.arguments.BoolArgumentType;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
+import net.fabricmc.api.ModInitializer;
+import net.minecraft.command.argument.TimeArgumentType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
+public class Rules4Worlds implements ModInitializer {
+    public static final String MOD_ID = "rules4worlds";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     @Override
@@ -18,9 +30,6 @@ public class Rules4Worlds /*implements ModInitializer*/ {
             -1,
             value -> value >= -1
     );
-    public static int getCooldown() {
-        return cooldown.get();
-    }
     //endregion
 
     //region Delay
@@ -30,9 +39,6 @@ public class Rules4Worlds /*implements ModInitializer*/ {
             -1,
             value -> value >= -1
     );
-    public static int getDelay() {
-        return delay.get();
-    }
     //endregion
 
     //region MaxHomeCount
@@ -42,9 +48,6 @@ public class Rules4Worlds /*implements ModInitializer*/ {
             3,
             value -> value >= 0
     );
-    public static int getMaxHomeCount() {
-        return maxHomeCount.get();
-    }
     //endregion
 
     //region DisableHomes
@@ -53,14 +56,11 @@ public class Rules4Worlds /*implements ModInitializer*/ {
             BoolArgumentType.bool(),
             false
     );
-    public static boolean areHomesDisabled() {
-        return disableHomes.get();
-    }
     //endregion
 
     public static final ConfigCategory category = new SimpleConfigCategory("homes")
             .addComponent(cooldown)
             .addComponent(delay)
             .addComponent(maxHomeCount)
-            .addComponent(disableHomes);*/
+            .addComponent(disableHomes);
 }

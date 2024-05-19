@@ -100,33 +100,38 @@ public class SimpleConfigCategory implements ConfigCategory {
 
     @Override
     @SuppressWarnings("unchecked")
-    public void validateOrSetDefault(@NotNull Map<String, Object> map) {
-        Map<String, Object> categoryMap = Optional.ofNullable(map.get(name))
-                .filter(Map.class::isInstance)
-                .map(Map.class::cast)
-                .orElseGet(LinkedHashMap::new);
+    public boolean validateOrSetDefault(@NotNull Map<String, Object> map) {
+        Object obj = map.get(name);
+        boolean changed = !(obj instanceof Map);
+        Map<String, Object> categoryMap = changed ? new LinkedHashMap<>() : (Map<String, Object>) obj;
 
-        components.forEach(component -> component.validateOrSetDefault(categoryMap));
+        for (ConfigComponent component : components) {
+            changed |= component.validateOrSetDefault(categoryMap);
+        }
 
-        validateMapOrder(categoryMap);
+        changed |= validateMapOrder(categoryMap);
 
-        map.put(name, categoryMap);
+        if (changed) map.put(name, categoryMap);
+
+        return changed;
     }
 
     /**
      * Validates the order of the map.
-     * Only works if the map is a LinkedHashMap.
+     * Only works if the map is a {@link LinkedHashMap}.
      * @param map the map to validate
+     * @return {@code true} if the map was changed, {@code false} otherwise
      */
-    private void validateMapOrder(@NotNull Map<String, Object> map)  {
-        Map<String, Object> categoryMap = new HashMap<>(map);
-
+    private boolean validateMapOrder(@NotNull Map<String, Object> map)  {
+        Map<String, Object> categoryMap = new LinkedHashMap<>(map);
         map.clear();
 
         components.forEach(component -> {
             String key = component.getName();
             map.put(key, categoryMap.get(key));
         });
+
+        return !(new ArrayList<>(categoryMap.keySet()).equals(new ArrayList<>(map.keySet())));
     }
 
     @Override

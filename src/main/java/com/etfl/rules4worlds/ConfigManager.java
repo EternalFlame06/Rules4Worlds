@@ -9,10 +9,7 @@ import net.minecraft.server.MinecraftServer;
 import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Supplier;
 
 import static net.minecraft.server.command.CommandManager.literal;
@@ -106,10 +103,16 @@ public class ConfigManager {
      * If the order is incorrect, the method corrects it.
      * @param map the map to validate
      */
-    private void validateOrSetDefault(@NotNull Map<String, Object> map) {
-        components.forEach(component -> component.validateOrSetDefault(map));
+    private boolean validateOrSetDefault(@NotNull Map<String, Object> map) {
+        boolean changed = false;
 
-        validateMapOrder(map);
+        for (ConfigComponent component : components) {
+            changed |= component.validateOrSetDefault(map);
+        }
+
+        changed |= validateMapOrder(map);
+
+        return changed;
     }
 
     /**
@@ -117,15 +120,16 @@ public class ConfigManager {
      * Only works if the map is a LinkedHashMap.
      * @param map the map to validate
      */
-    private void validateMapOrder(@NotNull Map<String, Object> map)  {
-        Map<String, Object> categoryMap = new HashMap<>(map);
-
+    private boolean validateMapOrder(@NotNull Map<String, Object> map)  {
+        Map<String, Object> categoryMap = new LinkedHashMap<>(map);
         map.clear();
 
         components.forEach(component -> {
             String key = component.getName();
             map.put(key, categoryMap.get(key));
         });
+
+        return !(new ArrayList<>(categoryMap.keySet()).equals(new ArrayList<>(map.keySet())));
     }
 
     /**

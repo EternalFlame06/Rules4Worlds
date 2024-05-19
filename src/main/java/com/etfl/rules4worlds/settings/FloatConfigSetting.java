@@ -86,21 +86,19 @@ public class FloatConfigSetting implements ConfigSetting<Float> {
     }
 
     @Override
-    public void validateOrSetDefault(@NotNull Map<String, Object> map) {
-        Object obj = map.getOrDefault(name, defaultValue);
-        float value = (obj instanceof Number) ? ((Number) obj).floatValue() : defaultValue;
-
-        if (!validator.test(value)) value = defaultValue;
-
-        map.put(name, validator.test(value) ? value : defaultValue);
+    public boolean validateOrSetDefault(@NotNull Map<String, Object> map) {
+        Object obj = map.get(name);
+        boolean changed = !(obj instanceof Number) || !validator.test(((Number) obj).floatValue());
+        if (changed) map.put(name, defaultValue);
+        return changed;
     }
 
     @Override
     public void fromMap(@NotNull Map<String, Object> map) {
-        Object obj = map.getOrDefault(name, defaultValue);
-        float value = (obj instanceof Number) ? ((Number) obj).floatValue() : defaultValue;
-
-        if (validator.test(value)) this.value = value;
+        Object obj = map.get(name);
+        boolean isNumber = obj instanceof Number;
+        float value = isNumber ? ((Number) obj).floatValue() : defaultValue;
+        this.value = isNumber && validator.test(value) ? value : defaultValue;
     }
 
     @Override
@@ -121,7 +119,7 @@ public class FloatConfigSetting implements ConfigSetting<Float> {
     private int get(CommandContext<ServerCommandSource> context) {
 
         context.getSource().sendFeedback(
-                () -> Text.literal("ConfigSetting" + name + " is currently set to: " + value).formatted(WHITE),
+                () -> Text.literal("Setting: " + name + " is currently set to: " + value).formatted(WHITE),
                 false);
 
         return value > 0 ? 15 : 0;
@@ -139,7 +137,7 @@ public class FloatConfigSetting implements ConfigSetting<Float> {
         }
 
         context.getSource().sendFeedback(
-                () -> Text.literal("ConfigSetting" + name + " is currently set to: " + value).formatted(WHITE),
+                () -> Text.literal("Setting: " + name + " is currently set to: " + value).formatted(WHITE),
                 valueChanged);
 
         return value > 0 ? 15 : 0;
@@ -151,7 +149,7 @@ public class FloatConfigSetting implements ConfigSetting<Float> {
         setToDefault();
 
         context.getSource().sendFeedback(
-                () -> Text.literal("ConfigSetting" + name + " is currently set to: " + value).formatted(WHITE),
+                () -> Text.literal("Setting: " + name + " is currently set to: " + value).formatted(WHITE),
                 true);
 
         return 15;

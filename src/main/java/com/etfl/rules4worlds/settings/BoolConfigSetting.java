@@ -66,9 +66,11 @@ public class BoolConfigSetting implements ConfigSetting<Boolean> {
     }
 
     @Override
-    public void validateOrSetDefault(@NotNull Map<String, Object> map) {
-        Object obj = map.getOrDefault(name, defaultValue);
-        map.put(name, (obj instanceof Boolean) ? obj : defaultValue);
+    public boolean validateOrSetDefault(@NotNull Map<String, Object> map) {
+        Object obj = map.get(name);
+        boolean changed = !(obj instanceof Boolean);
+        if (changed) map.put(name, defaultValue);
+        return changed;
     }
 
     @Override
@@ -104,7 +106,7 @@ public class BoolConfigSetting implements ConfigSetting<Boolean> {
      */
     private int get(CommandContext<ServerCommandSource> context) {
         context.getSource().sendFeedback(
-                () -> Text.literal("ConfigSetting" + name + " is currently set to: " + value).formatted(WHITE),
+                () -> Text.literal("Setting: " + name + " is currently set to: " + value).formatted(WHITE),
                 false);
 
         return value ? 15 : 0;
@@ -124,7 +126,7 @@ public class BoolConfigSetting implements ConfigSetting<Boolean> {
         this.value = value;
 
         context.getSource().sendFeedback(
-                () -> Text.literal("ConfigSetting" + name + " is currently set to: " + value).formatted(WHITE),
+                () -> Text.literal("Setting: " + name + " is currently set to: " + value).formatted(WHITE),
                 true);
 
         return value ? 15 : 0;
@@ -142,7 +144,7 @@ public class BoolConfigSetting implements ConfigSetting<Boolean> {
         setToDefault();
 
         context.getSource().sendFeedback(
-                () -> Text.literal("ConfigSetting" + name + " is currently set to: " + value).formatted(WHITE),
+                () -> Text.literal("Setting: " + name + " is currently set to: " + value).formatted(WHITE),
                 true);
 
         return 15;

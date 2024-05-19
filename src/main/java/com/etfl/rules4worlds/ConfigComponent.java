@@ -36,7 +36,7 @@ public interface ConfigComponent {
      * Adds the component's default value to the given map if not present or if the value is outside of bounds.
      * @param map the map to add the value to
      */
-    void validateOrSetDefault(@NotNull Map<String, Object> map);
+    boolean validateOrSetDefault(@NotNull Map<String, Object> map);
 
     /**
      * Sets the Component's value from the given map.

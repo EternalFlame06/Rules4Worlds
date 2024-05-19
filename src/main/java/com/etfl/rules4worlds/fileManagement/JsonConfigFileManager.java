@@ -9,7 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.function.Consumer;
+import java.util.function.Function;
 
 
 import com.google.gson.*;
@@ -17,13 +17,13 @@ import com.google.gson.reflect.TypeToken;
 
 public class JsonConfigFileManager implements ConfigFileManager {
     private final String configFileName;
-    private final Consumer<Map<String, Object>> configValidator;
+    private final Function<Map<String, Object>, Boolean> configValidator;
 
     private static final Gson GSON = new GsonBuilder()
             .setPrettyPrinting().create();
     private static final TypeToken<Map<String, Map<String, Object>>> TYPE_TOKEN = new TypeToken<>() {};
 
-    public JsonConfigFileManager(String configFileName, Consumer<Map<String, Object>> configValidator) {
+    public JsonConfigFileManager(String configFileName, Function<Map<String, Object>, Boolean> configValidator) {
         this.configFileName = configFileName;
         this.configValidator = configValidator;
     }
@@ -41,7 +41,6 @@ public class JsonConfigFileManager implements ConfigFileManager {
         Path configPath = FabricLoader.getInstance().getConfigDir().resolve(configFileName + ".json");
         boolean fileExists = Files.exists(configPath);
 
-        //Reads file
         Map<String, Object> config = null;
 
         if (fileExists) {
@@ -52,12 +51,9 @@ public class JsonConfigFileManager implements ConfigFileManager {
 
         if (config == null) config = new LinkedHashMap<>();
 
-        Map<String, Object> currentConfig = MapUtils.deepCopy(config);
+        boolean changed = configValidator.apply(config);
 
-        configValidator.accept(config);
-
-        if (!fileExists
-                || MapUtils.mapsUnequal(config, currentConfig)) {
+        if (!fileExists || changed) {
             try (FileWriter writer = new FileWriter(configPath.toFile())) {
                 GSON.toJson(config, writer);
             }
