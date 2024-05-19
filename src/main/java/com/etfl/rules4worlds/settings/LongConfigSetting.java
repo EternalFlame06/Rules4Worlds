@@ -86,21 +86,19 @@ public class LongConfigSetting implements ConfigSetting<Long> {
     }
 
     @Override
-    public void validateOrSetDefault(@NotNull Map<String, Object> map) {
-        Object obj = map.getOrDefault(name, defaultValue);
-        long value = (obj instanceof Number) ? ((Number) obj).longValue() : defaultValue;
-
-        if (!validator.test(value)) value = defaultValue;
-
-        map.put(name, validator.test(value) ? value : defaultValue);
+    public boolean validateOrSetDefault(@NotNull Map<String, Object> map) {
+        Object obj = map.get(name);
+        boolean changed = !(obj instanceof Number) || !validator.test(((Number) obj).longValue());
+        if (changed) map.put(name, defaultValue);
+        return changed;
     }
 
     @Override
     public void fromMap(@NotNull Map<String, Object> map) {
-        Object obj = map.getOrDefault(name, defaultValue);
-        long value = (obj instanceof Number) ? ((Number) obj).longValue() : defaultValue;
-
-        if (validator.test(value)) this.value = value;
+        Object obj = map.get(name);
+        boolean isNumber = obj instanceof Number;
+        long value = isNumber ? ((Number) obj).longValue() : defaultValue;
+        this.value = isNumber && validator.test(value) ? value : defaultValue;
     }
 
     @Override
@@ -138,7 +136,7 @@ public class LongConfigSetting implements ConfigSetting<Long> {
         }
 
         context.getSource().sendFeedback(
-                () -> Text.literal("ConfigSetting" + name + " is currently set to: " + value).formatted(WHITE),
+                () -> Text.literal("Setting: " + name + " is currently set to: " + value).formatted(WHITE),
                 valueChanged);
 
         return value > 0 ? 15 : 0;
@@ -150,7 +148,7 @@ public class LongConfigSetting implements ConfigSetting<Long> {
         setToDefault();
 
         context.getSource().sendFeedback(
-                () -> Text.literal("ConfigSetting" + name + " is currently set to: " + value).formatted(WHITE),
+                () -> Text.literal("Setting: " + name + " is currently set to: " + value).formatted(WHITE),
                 true);
 
         return 15;

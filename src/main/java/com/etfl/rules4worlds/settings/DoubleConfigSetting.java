@@ -86,21 +86,19 @@ public class DoubleConfigSetting implements ConfigSetting<Double> {
     }
 
     @Override
-    public void validateOrSetDefault(@NotNull Map<String, Object> map) {
-        Object obj = map.getOrDefault(name, defaultValue);
-        double value = (obj instanceof Number) ? ((Number) obj).doubleValue() : defaultValue;
-
-        if (!validator.test(value)) value = defaultValue;
-
-        map.put(name, validator.test(value) ? value : defaultValue);
+    public boolean validateOrSetDefault(@NotNull Map<String, Object> map) {
+        Object obj = map.get(name);
+        boolean changed = !(obj instanceof Number) || !validator.test(((Number) obj).doubleValue());
+        if (changed) map.put(name, defaultValue);
+        return changed;
     }
 
     @Override
     public void fromMap(@NotNull Map<String, Object> map) {
-        Object obj = map.getOrDefault(name, defaultValue);
-        double value = (obj instanceof Number) ? ((Number) obj).doubleValue() : defaultValue;
-
-        if (validator.test(value)) this.value = value;
+        Object obj = map.get(name);
+        boolean isNumber = obj instanceof Number;
+        double value = isNumber ? ((Number) obj).doubleValue() : defaultValue;
+        this.value = isNumber && validator.test(value) ? value : defaultValue;
     }
 
     @Override
@@ -120,7 +118,7 @@ public class DoubleConfigSetting implements ConfigSetting<Double> {
 
     private int get(CommandContext<ServerCommandSource> context) {
         context.getSource().sendFeedback(
-                () -> Text.literal("ConfigSetting" + name + " is currently set to: " + value).formatted(WHITE),
+                () -> Text.literal("Setting: " + name + " is currently set to: " + value).formatted(WHITE),
                 false);
 
         return value > 0 ? 15 : 0;
@@ -138,7 +136,7 @@ public class DoubleConfigSetting implements ConfigSetting<Double> {
         }
 
         context.getSource().sendFeedback(
-                () -> Text.literal("ConfigSetting" + name + " is currently set to: " + value).formatted(WHITE),
+                () -> Text.literal("Setting: " + name + " is currently set to: " + value).formatted(WHITE),
                 valueChanged);
 
         return value > 0 ? 15 : 0;
@@ -150,7 +148,7 @@ public class DoubleConfigSetting implements ConfigSetting<Double> {
         setToDefault();
 
         context.getSource().sendFeedback(
-                () -> Text.literal("ConfigSetting" + name + " is currently set to: " + value).formatted(WHITE),
+                () -> Text.literal("Setting: " + name + " is currently set to: " + value).formatted(WHITE),
                 true);
 
         return 15;
