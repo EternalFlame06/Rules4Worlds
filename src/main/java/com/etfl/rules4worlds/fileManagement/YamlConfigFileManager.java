@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
+@Deprecated
 public class YamlConfigFileManager implements ConfigFileManager {
     private final String configFileName;
     private final Consumer<Map<String, Object>> configValidator;

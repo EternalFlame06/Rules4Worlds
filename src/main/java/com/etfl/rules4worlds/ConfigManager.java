@@ -1,13 +1,14 @@
 package com.etfl.rules4worlds;
 
+import com.etfl.rules4worlds.fileManagement.ConfigFactory;
 import com.etfl.rules4worlds.fileManagement.ConfigFileManager;
-import com.etfl.rules4worlds.fileManagement.JsonConfigFileManager;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.MinecraftServer;
 import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.Supplier;
@@ -28,8 +29,11 @@ public class ConfigManager {
     /**
      * Creates a new {@code ConfigManager} with the provided {@code modID}.
      * Uses the {@code modID} as {@code baseCommand} for the config.
-     * The {@code modID} is used for the config file name and for the data file name of the {@link ServerStateManager}. Should only be instantiated during initialization of the mod.
+     * This will not create a config file. To create a config file use the {@link ConfigManager#ConfigManager(String, ConfigFactory)} constructor.
+     * The {@code modID} is used for the config file name and for the data file name of the {@link ServerStateManager}.
+     * <b>Should only be instantiated during initialization of the mod.</b>
      * @param modID the modID of the mod
+     * @see ConfigManager#ConfigManager(String, ConfigFactory)
      * @see ConfigManager#ConfigManager(String, String)
      */
     public ConfigManager(@NotNull @NotBlank final String modID) {
@@ -38,14 +42,45 @@ public class ConfigManager {
 
     /**
      * Creates a new {@code ConfigManager} with the provided {@code modID} and {@code baseCommand}.
-     * The {@code modID} is used for the config file name and for the data file name of the {@link ServerStateManager}. Should only be instantiated during initialization of the mod.
+     * The {@code modID} is used for the config file name and for the data file name of the {@link ServerStateManager}.
+     * This will not create a config file. To create a config file use the {@link ConfigManager#ConfigManager(String, String, ConfigFactory)} constructor.
+     * <b>Should only be instantiated during initialization of the mod.</b>
      * @param modID the modID of the mod
      * @param baseCommand the base command for the config
+     * @see ConfigManager#ConfigManager(String, String, ConfigFactory)
      */
     public ConfigManager(@NotNull @NotBlank final String modID, @NotNull @NotBlank final String baseCommand) {
+        this(modID, baseCommand, null);
+    }
+
+    /**
+     * Creates a new {@code ConfigManager} with the provided {@code modID} and {@link ConfigFactory}.
+     * Uses the {@code modID} as {@code baseCommand} for the config.
+     * The {@code modID} is used for the data file name of the {@link ServerStateManager}.
+     * This will create a config file. To avoid creating a config file use the {@link ConfigManager#ConfigManager(String)} constructor.
+     * <b>Should only be instantiated during initialization of the mod.</b>
+     * @param modID the modID of the mod
+     * @param configFactory the config factory to use for the {@link ConfigFileManager}
+     * @see ConfigManager#ConfigManager(String, ConfigFactory)
+     * @see ConfigManager#ConfigManager(String, String)
+     */
+    public ConfigManager(@NotNull @NotBlank final String modID, @Nullable ConfigFactory configFactory) {
+        this(modID, modID, configFactory);
+    }
+
+    /**
+     * Creates a new {@code ConfigManager} with the provided {@code modID}, {@code baseCommand} and {@link ConfigFactory}.
+     * The {@code modID} is used for the data file name of the {@link ServerStateManager}.
+     * This will create a config file. To avoid creating a config file use the {@link ConfigManager#ConfigManager(String)} constructor.
+     * <b>Should only be instantiated during initialization of the mod.</b>
+     * @param modID the modID of the mod
+     * @param baseCommand the base command for the config
+     * @param configFactory the config factory to use for the {@link ConfigFileManager}
+     */
+    public ConfigManager(@NotNull @NotBlank final String modID, @NotNull @NotBlank final String baseCommand, @Nullable ConfigFactory configFactory) {
         this.modID = modID;
         this.baseCommand = baseCommand;
-        this.configFileManager = new JsonConfigFileManager(modID + "_config", this::validateOrSetDefault);
+        this.configFileManager = configFactory != null ? configFactory.create(this::validateOrSetDefault) : null;
 
         ServerLifecycleEvents.SERVER_STARTED.register(this::onServerStart);
     }
@@ -69,6 +104,11 @@ public class ConfigManager {
      */
     public void initialize() {
         registerCommands();
+
+        if(configFileManager == null) {
+            setDefaultSupplier(Map::of);
+            return;
+        }
 
         setDefaultSupplier(configFileManager::getConfig);
 
