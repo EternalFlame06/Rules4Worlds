@@ -16,7 +16,7 @@ public class JsonConfigFactory implements ConfigFactory {
     private final String configFileName;
 
     /**
-     * Creates a new {@code JsonConfigFactory} with the provided {@code configFileName}.
+     * Creates a new {@code JsonConfigFactory} with the specified {@code configFileName} without the file extension.
      * @param configFileName the name of the config file
      */
     public JsonConfigFactory(@NotNull @NotBlank String configFileName) {
