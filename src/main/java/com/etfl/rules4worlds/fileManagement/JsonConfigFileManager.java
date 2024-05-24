@@ -14,6 +14,9 @@ import java.util.function.Function;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
+import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class JsonConfigFileManager implements ConfigFileManager {
     private final String configFileName;
@@ -23,9 +26,9 @@ public class JsonConfigFileManager implements ConfigFileManager {
             .setPrettyPrinting().create();
     private static final TypeToken<Map<String, Map<String, Object>>> TYPE_TOKEN = new TypeToken<>() {};
 
-    public JsonConfigFileManager(String configFileName, Function<Map<String, Object>, Boolean> configValidator) {
+    public JsonConfigFileManager(@NotNull @NotBlank String configFileName, @Nullable Function<Map<String, Object>, Boolean> configValidator) {
         this.configFileName = configFileName;
-        this.configValidator = configValidator;
+        this.configValidator = configValidator != null ? configValidator : (map) -> false;
     }
 
     @Override
