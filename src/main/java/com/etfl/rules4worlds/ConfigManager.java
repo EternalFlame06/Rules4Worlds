@@ -135,7 +135,8 @@ public class ConfigManager {
      * Resets all direct and indirect settings.
      */
     private void resetSettings() {
-        components.forEach(components -> components.fromMap(configFileManager.getConfig()));
+        Map<String, Object> config = configFileManager != null ? configFileManager.getConfig() : Map.of();
+        components.forEach(components -> components.fromMap(config));
     }
 
     /**
