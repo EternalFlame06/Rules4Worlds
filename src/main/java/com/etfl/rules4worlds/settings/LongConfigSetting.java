@@ -18,7 +18,7 @@ import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
 import static net.minecraft.util.Formatting.WHITE;
 
-public class LongConfigSetting implements ConfigSetting<Long> {
+public class LongConfigSetting implements ConfigSetting{
     private long value;
     private final long defaultValue;
     private final String name;
@@ -80,7 +80,6 @@ public class LongConfigSetting implements ConfigSetting<Long> {
         this.value = validator.test(value) ? value : defaultValue;
     }
 
-    @Override
     public Long get() {
         return value;
     }

@@ -18,7 +18,7 @@ import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
 import static net.minecraft.util.Formatting.WHITE;
 
-public class IntConfigSetting implements ConfigSetting<Integer> {
+public class IntConfigSetting implements ConfigSetting{
     private int value;
     private final int defaultValue;
     private final String name;
@@ -81,7 +81,6 @@ public class IntConfigSetting implements ConfigSetting<Integer> {
         this.value = validator.test(value) ? value : defaultValue;
     }
 
-    @Override
     public Integer get() {
         return value;
     }

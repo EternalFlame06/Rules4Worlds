@@ -18,7 +18,7 @@ import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
 import static net.minecraft.util.Formatting.WHITE;
 
-public class DoubleConfigSetting implements ConfigSetting<Double> {
+public class DoubleConfigSetting implements ConfigSetting {
     private double value;
     private final double defaultValue;
     private final String name;
@@ -80,7 +80,6 @@ public class DoubleConfigSetting implements ConfigSetting<Double> {
         this.value = validator.test(value) ? value : defaultValue;
     }
 
-    @Override
     public Double get() {
         return value;
     }

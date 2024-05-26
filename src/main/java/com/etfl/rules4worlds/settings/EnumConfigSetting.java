@@ -15,7 +15,7 @@ import static net.minecraft.server.command.CommandManager.literal;
 import static net.minecraft.util.Formatting.WHITE;
 
 public class EnumConfigSetting<T extends Enum<T> & EnumSettingType<T>> implements
-        ConfigSetting<T>{
+        ConfigSetting{
     private T value;
     private final T defaultValue;
     private final String name;
@@ -63,7 +63,6 @@ public class EnumConfigSetting<T extends Enum<T> & EnumSettingType<T>> implement
         this.value = value != null ? value : defaultValue;
     }
 
-    @Override
     public T get() {
         return value;
     }

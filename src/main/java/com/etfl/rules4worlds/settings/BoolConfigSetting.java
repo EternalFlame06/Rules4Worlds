@@ -17,7 +17,7 @@ import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
 import static net.minecraft.util.Formatting.WHITE;
 
-public class BoolConfigSetting implements ConfigSetting<Boolean> {
+public class BoolConfigSetting implements ConfigSetting {
     private boolean value;
     private final boolean defaultValue;
     private final String name;
@@ -79,7 +79,6 @@ public class BoolConfigSetting implements ConfigSetting<Boolean> {
         value = (obj instanceof Boolean) ? (Boolean) obj : defaultValue;
     }
 
-    @Override
     public Boolean get() {
         return value;
     }

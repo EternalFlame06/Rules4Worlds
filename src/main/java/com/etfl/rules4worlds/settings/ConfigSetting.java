@@ -7,9 +7,8 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents a setting in the config.
- * @param <T> the type of the setting
  */
-public interface ConfigSetting<T> extends ConfigComponent {
+public interface ConfigSetting extends ConfigComponent {
 
     /**
      * Get the name of the setting.
@@ -22,10 +21,4 @@ public interface ConfigSetting<T> extends ConfigComponent {
      * @param command the command to add the setting's command to
      */
     void initialize(@NotNull LiteralArgumentBuilder<ServerCommandSource> command);
-
-    /**
-     * Get the value of the setting.
-     * @return the value of the setting
-     */
-    T get();
 }
