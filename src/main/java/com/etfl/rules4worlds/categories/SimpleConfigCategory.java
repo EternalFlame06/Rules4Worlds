@@ -56,7 +56,7 @@ public class SimpleConfigCategory implements ConfigCategory {
     }
 
     @Override
-    public @NotNull SimpleConfigCategory addComponent(@NotNull ConfigComponent component) {
+    public @NotNull SimpleConfigCategory add(@NotNull ConfigComponent component) {
         components.add(component);
         return this;
     }

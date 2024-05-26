@@ -23,5 +23,5 @@ public interface ConfigCategory extends ConfigComponent {
      * @return the category object for method chaining
      * @implSpec This method should add the component to an internal list of components and it should return the object itself for method chaining.
      */
-    @NotNull ConfigCategory addComponent(@NotNull ConfigComponent component);
+    @NotNull ConfigCategory add(@NotNull ConfigComponent component);
 }

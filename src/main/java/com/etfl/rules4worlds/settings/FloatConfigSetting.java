@@ -18,7 +18,7 @@ import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
 import static net.minecraft.util.Formatting.WHITE;
 
-public class FloatConfigSetting implements ConfigSetting<Float> {
+public class FloatConfigSetting implements ConfigSetting{
     private float value;
     private final float defaultValue;
     private final String name;
@@ -80,7 +80,6 @@ public class FloatConfigSetting implements ConfigSetting<Float> {
         this.value = validator.test(value) ? value : defaultValue;
     }
 
-    @Override
     public Float get() {
         return value;
     }
