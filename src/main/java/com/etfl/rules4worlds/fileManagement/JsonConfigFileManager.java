@@ -24,7 +24,7 @@ public class JsonConfigFileManager implements ConfigFileManager {
 
     private static final Gson GSON = new GsonBuilder()
             .setPrettyPrinting().create();
-    private static final TypeToken<Map<String, Map<String, Object>>> TYPE_TOKEN = new TypeToken<>() {};
+    private static final TypeToken<Map<String, Object>> TYPE_TOKEN = new TypeToken<>() {};
 
     public JsonConfigFileManager(@NotNull @NotBlank String configFileName, @Nullable Function<Map<String, Object>, Boolean> configValidator) {
         this.configFileName = configFileName;
