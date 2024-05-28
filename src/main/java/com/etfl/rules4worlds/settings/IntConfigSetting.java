@@ -81,7 +81,7 @@ public class IntConfigSetting implements ConfigSetting {
         this.value = validator.test(value) ? value : defaultValue;
     }
 
-    public Integer get() {
+    public int get() {
         return value;
     }
 
