@@ -80,7 +80,7 @@ public class LongConfigSetting implements ConfigSetting{
         this.value = validator.test(value) ? value : defaultValue;
     }
 
-    public Long get() {
+    public long get() {
         return value;
     }
 

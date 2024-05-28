@@ -80,7 +80,7 @@ public class DoubleConfigSetting implements ConfigSetting {
         this.value = validator.test(value) ? value : defaultValue;
     }
 
-    public Double get() {
+    public double get() {
         return value;
     }
 

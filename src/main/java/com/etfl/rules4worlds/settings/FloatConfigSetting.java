@@ -80,7 +80,7 @@ public class FloatConfigSetting implements ConfigSetting{
         this.value = validator.test(value) ? value : defaultValue;
     }
 
-    public Float get() {
+    public float get() {
         return value;
     }
 

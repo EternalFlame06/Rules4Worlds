@@ -79,7 +79,7 @@ public class BoolConfigSetting implements ConfigSetting {
         value = (obj instanceof Boolean) ? (Boolean) obj : defaultValue;
     }
 
-    public Boolean get() {
+    public boolean get() {
         return value;
     }
 
