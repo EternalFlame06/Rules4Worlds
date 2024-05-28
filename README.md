@@ -1,7 +1,8 @@
 `Rules4Worlds` is a library mod for fabric mod developers (currently only on 1.20.6). 
-It enables you to create your own world specific gameruls including a config file with ease. 
-You can even add you own implementation of the classes used in the library and without changing 
-the others they should be incorporated seemlessly without additional effort.
+It enables you to create your own world-specific gamerules including a config file with ease. 
+You can also introduce your own versions of the classes. 
+They will integrate with the existing ones, requiring no additional changes.
+
 > [!TIP]
 > Check out the [wiki](https://github.com/EternalFlame06/Rules4Worlds/wiki) to learn more about how to use the library
 
