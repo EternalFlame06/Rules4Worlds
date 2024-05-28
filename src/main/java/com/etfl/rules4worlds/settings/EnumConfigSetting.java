@@ -70,9 +70,9 @@ public class EnumConfigSetting<T extends Enum<T> & EnumSettingType<T>> implement
     @Override
     public boolean validateOrSetDefault(@NotNull Map<String, Object> map) {
         Object obj = map.get(name);
-        boolean changed = !(obj instanceof String) || this.value.fromString((String) obj) == null;
-        if (changed) map.put(name, defaultValue.toString());
-        return changed;
+        boolean incorrect = !(obj instanceof String) || this.value.fromString((String) obj) == null;
+        if (incorrect) map.put(name, defaultValue.toString());
+        return incorrect;
     }
 
     @Override
@@ -80,11 +80,6 @@ public class EnumConfigSetting<T extends Enum<T> & EnumSettingType<T>> implement
         T value = this.value.fromString(map.getOrDefault(name, defaultValue).toString());
 
         if (value != null) this.value = value;
-    }
-
-    @Override
-    public void setToDefault() {
-        fromMap(defaultSupplier.get());
     }
 
     @Override
@@ -120,7 +115,7 @@ public class EnumConfigSetting<T extends Enum<T> & EnumSettingType<T>> implement
     private int reset(CommandContext<ServerCommandSource> context) {
         markDirty.run();
 
-        setToDefault();
+        fromMap(defaultSupplier.get());
 
         context.getSource().sendFeedback(
                 () -> Text.literal("ConfigSetting" + name + " is currently set to: " + value.toString()).formatted(WHITE),

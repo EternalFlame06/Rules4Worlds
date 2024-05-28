@@ -87,9 +87,9 @@ public class LongConfigSetting implements ConfigSetting{
     @Override
     public boolean validateOrSetDefault(@NotNull Map<String, Object> map) {
         Object obj = map.get(name);
-        boolean changed = !(obj instanceof Number) || !validator.test(((Number) obj).longValue());
-        if (changed) map.put(name, defaultValue);
-        return changed;
+        boolean incorrect = !(obj instanceof Number) || !validator.test(((Number) obj).longValue());
+        if (incorrect) map.put(name, defaultValue);
+        return incorrect;
     }
 
     @Override
@@ -98,11 +98,6 @@ public class LongConfigSetting implements ConfigSetting{
         boolean isNumber = obj instanceof Number;
         long value = isNumber ? ((Number) obj).longValue() : defaultValue;
         this.value = isNumber && validator.test(value) ? value : defaultValue;
-    }
-
-    @Override
-    public void setToDefault() {
-        fromMap(defaultSupplier.get());
     }
 
     @Override
@@ -144,7 +139,7 @@ public class LongConfigSetting implements ConfigSetting{
     private int reset(CommandContext<ServerCommandSource> context) {
         markDirty.run();
 
-        setToDefault();
+        fromMap(defaultSupplier.get());
 
         context.getSource().sendFeedback(
                 () -> Text.literal("Setting: " + name + " is currently set to: " + value).formatted(WHITE),
