@@ -68,9 +68,9 @@ public class BoolConfigSetting implements ConfigSetting {
     @Override
     public boolean validateOrSetDefault(@NotNull Map<String, Object> map) {
         Object obj = map.get(name);
-        boolean changed = !(obj instanceof Boolean);
-        if (changed) map.put(name, defaultValue);
-        return changed;
+        boolean incorrect = !(obj instanceof Boolean);
+        if (incorrect) map.put(name, defaultValue);
+        return incorrect;
     }
 
     @Override
@@ -81,11 +81,6 @@ public class BoolConfigSetting implements ConfigSetting {
 
     public Boolean get() {
         return value;
-    }
-
-    @Override
-    public void setToDefault() {
-        fromMap(defaultSupplier.get());
     }
 
     @Override
@@ -140,7 +135,7 @@ public class BoolConfigSetting implements ConfigSetting {
     private int reset(CommandContext<ServerCommandSource> context) {
         markDirty.run();
 
-        setToDefault();
+        fromMap(defaultSupplier.get());
 
         context.getSource().sendFeedback(
                 () -> Text.literal("Setting: " + name + " is currently set to: " + value).formatted(WHITE),

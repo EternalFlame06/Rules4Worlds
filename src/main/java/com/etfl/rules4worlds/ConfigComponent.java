@@ -45,11 +45,6 @@ public interface ConfigComponent {
     void fromMap(@NotNull Map<String, Object> map);
 
     /**
-     * Set the value of the settings to the default value.
-     */
-    void setToDefault();
-
-    /**
      * Sets the markDirty runnable for the component.
      * Should only be called by the parent category or configManager.
      * @param runnable the runnable to set

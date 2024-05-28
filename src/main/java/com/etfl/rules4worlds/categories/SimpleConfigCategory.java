@@ -102,18 +102,18 @@ public class SimpleConfigCategory implements ConfigCategory {
     @SuppressWarnings("unchecked")
     public boolean validateOrSetDefault(@NotNull Map<String, Object> map) {
         Object obj = map.get(name);
-        boolean changed = !(obj instanceof Map);
-        Map<String, Object> categoryMap = changed ? new LinkedHashMap<>() : (Map<String, Object>) obj;
+        boolean incorrect = !(obj instanceof Map);
+        Map<String, Object> categoryMap = incorrect ? new LinkedHashMap<>() : (Map<String, Object>) obj;
 
         for (ConfigComponent component : components) {
-            changed |= component.validateOrSetDefault(categoryMap);
+            incorrect |= component.validateOrSetDefault(categoryMap);
         }
 
-        changed |= validateMapOrder(categoryMap);
+        incorrect |= validateMapOrder(categoryMap);
 
-        if (changed) map.put(name, categoryMap);
+        if (incorrect) map.put(name, categoryMap);
 
-        return changed;
+        return incorrect;
     }
 
     /**
@@ -142,7 +142,9 @@ public class SimpleConfigCategory implements ConfigCategory {
         components.forEach(component -> component.fromMap(categoryMap));
     }
 
-    @Override
+    /**
+     * Set the value of the settings to the default value.
+     */
     public void setToDefault() {
         fromMap(reset.get());
     }
