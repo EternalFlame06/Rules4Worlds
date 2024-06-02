@@ -3,8 +3,6 @@ It enables you to create your own world-specific gamerules including a config fi
 You can also introduce your own versions of the classes. 
 They will integrate with the existing ones, requiring no additional changes.
 
-> [!TIP]
 > Check out the [wiki](https://github.com/EternalFlame06/Rules4Worlds/wiki) to learn more about how to use the library
 
-> [!NOTE]
-> If you want to report bugs, request a new feature or suggest an improvement, feel free to use the [issues tracker](https://github.com/EternalFlame06/Rules4Worlds/issues)
+> Also, if you want to report bugs, request a new feature or suggest an improvement, feel free to use the [issues tracker](https://github.com/EternalFlame06/Rules4Worlds/issues)

@@ -17,6 +17,9 @@ import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
 import static net.minecraft.util.Formatting.WHITE;
 
+/**
+ * A boolean configuration setting.
+ */
 public class BoolConfigSetting implements ConfigSetting {
     private boolean value;
     private final boolean defaultValue;
@@ -25,6 +28,12 @@ public class BoolConfigSetting implements ConfigSetting {
     private Runnable markDirty = () -> {};
     private Supplier<Map<String, Object>> defaultSupplier = Map::of;
 
+    /**
+     * Creates a boolean configuration setting with the specified name, argument type, and default value.
+     * @param name the name of the setting
+     * @param argumentType the argument type used in the command
+     * @param defaultValue the default value of the setting
+     */
     public BoolConfigSetting(@NotNull @NotBlank final String name,
                              @NotNull final ArgumentType<Boolean> argumentType,
                              final boolean defaultValue) {
@@ -79,6 +88,10 @@ public class BoolConfigSetting implements ConfigSetting {
         value = (obj instanceof Boolean) ? (Boolean) obj : defaultValue;
     }
 
+    /**
+     * Gets the value of the setting.
+     * @return the value of the setting
+     */
     public boolean get() {
         return value;
     }
