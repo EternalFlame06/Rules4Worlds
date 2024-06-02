@@ -14,6 +14,9 @@ import java.util.function.Supplier;
 import static net.minecraft.server.command.CommandManager.literal;
 import static net.minecraft.util.Formatting.WHITE;
 
+/**
+ * Represents a setting in the config using an enum as the value.
+ */
 public class EnumConfigSetting<T extends Enum<T> & EnumSettingType<T>> implements
         ConfigSetting{
     private T value;
@@ -22,6 +25,11 @@ public class EnumConfigSetting<T extends Enum<T> & EnumSettingType<T>> implement
     private Runnable markDirty = () -> {};
     private Supplier<Map<String, Object>> defaultSupplier = Map::of;
 
+    /**
+     * Creates a new enum configuration setting with the specified name and default value.
+     * @param name the name of the setting
+     * @param defaultValue the default value of the setting
+     */
     public EnumConfigSetting(@NotNull @NotBlank final String name,
                              @NotNull final T defaultValue) {
         this.name = name;
@@ -63,6 +71,10 @@ public class EnumConfigSetting<T extends Enum<T> & EnumSettingType<T>> implement
         this.value = value != null ? value : defaultValue;
     }
 
+    /**
+     * Get the value of the setting.
+     * @return the value of the setting
+     */
     public T get() {
         return value;
     }
@@ -92,6 +104,11 @@ public class EnumConfigSetting<T extends Enum<T> & EnumSettingType<T>> implement
         defaultSupplier = supplier;
     }
 
+    /**
+     * Called when the command to get the value of the setting is executed.
+     * @param context the command context
+     * @return a success value (15 is value is true and 0 if false)
+     */
     private int get(CommandContext<ServerCommandSource> context) {
         context.getSource().sendFeedback(
                 () -> Text.literal("ConfigSetting" + name + " is currently set to: " + value.toString()).formatted(WHITE),
@@ -100,6 +117,12 @@ public class EnumConfigSetting<T extends Enum<T> & EnumSettingType<T>> implement
         return 15;
     }
 
+    /**
+     * Called when the command to set the value of the setting is executed.
+     * Sets the value of the setting to the value provided in the command.
+     * @param context the command context
+     * @return a success value (15 is value is true and 0 if false)
+     */
     private int set(CommandContext<ServerCommandSource> context, T value) {
         markDirty.run();
 
@@ -112,6 +135,12 @@ public class EnumConfigSetting<T extends Enum<T> & EnumSettingType<T>> implement
         return 15;
     }
 
+    /**
+     * Called when the command to reset the value of the setting is executed.
+     * Resets the value of the setting to its default value.
+     * @param context the command context
+     * @return a success value (15 is value is true and 0 if false)
+     */
     private int reset(CommandContext<ServerCommandSource> context) {
         markDirty.run();
 

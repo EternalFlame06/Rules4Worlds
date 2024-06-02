@@ -18,6 +18,9 @@ import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
 import static net.minecraft.util.Formatting.WHITE;
 
+/**
+ * Represents an integer setting in the config.
+ */
 public class IntConfigSetting implements ConfigSetting {
     private int value;
     private final int defaultValue;
@@ -27,6 +30,12 @@ public class IntConfigSetting implements ConfigSetting {
     private Runnable markDirty = () -> {};
     private Supplier<Map<String, Object>> defaultSupplier = Map::of;
 
+    /**
+     * Creates a new integer setting with the given name, argument type, and default value.
+     * @param name the name of the setting
+     * @param argumentType the argument type for the command
+     * @param defaultValue the default value of the setting
+     */
     public IntConfigSetting(@NotNull @NotBlank final String name,
                             @NotNull final ArgumentType<Integer> argumentType,
                             final int defaultValue) {
@@ -37,6 +46,13 @@ public class IntConfigSetting implements ConfigSetting {
                         : value -> true);
     }
 
+    /**
+     * Creates a new integer setting with the given name, argument type, default value, and validator.
+     * @param name the name of the setting
+     * @param argumentType the argument type for the command
+     * @param defaultValue the default value of the setting
+     * @param validator the validator for the value
+     */
     public IntConfigSetting(@NotNull @NotBlank final String name,
                             @NotNull final ArgumentType<Integer> argumentType,
                             final int defaultValue,
@@ -81,6 +97,10 @@ public class IntConfigSetting implements ConfigSetting {
         this.value = validator.test(value) ? value : defaultValue;
     }
 
+    /**
+     * Gets the value of the setting.
+     * @return the value of the setting
+     */
     public int get() {
         return value;
     }
@@ -111,6 +131,11 @@ public class IntConfigSetting implements ConfigSetting {
         defaultSupplier = supplier;
     }
 
+    /**
+     * Called when the command to get the value of the setting is executed.
+     * @param context the command context
+     * @return a success value (15 is value is true and 0 if false)
+     */
     private int get(CommandContext<ServerCommandSource> context) {
         context.getSource().sendFeedback(
                 () -> Text.literal("Setting: " + name + " is currently set to: " + value).formatted(WHITE),
@@ -119,6 +144,12 @@ public class IntConfigSetting implements ConfigSetting {
         return value > 0 ? 15 : 0;
     }
 
+    /**
+     * Called when the command to set the value of the setting is executed.
+     * Sets the value of the setting to the value provided in the command.
+     * @param context the command context
+     * @return a success value (15 is value is true and 0 if false)
+     */
     private int set(CommandContext<ServerCommandSource> context) {
         markDirty.run();
 
@@ -137,6 +168,12 @@ public class IntConfigSetting implements ConfigSetting {
         return value > 0 ? 15 : 0;
     }
 
+    /**
+     * Called when the command to reset the value of the setting is executed.
+     * Resets the value of the setting to its default value.
+     * @param context the command context
+     * @return a success value (15 is value is true and 0 if false)
+     */
     private int reset(CommandContext<ServerCommandSource> context) {
         markDirty.run();
 
