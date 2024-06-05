@@ -1,38 +1,48 @@
----
-name: Bug report
-about: Create a report to help us improve
-title: ''
-labels: ''
-assignees: ''
+name: Bug Report
+description: "For reporting bugs"
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        Before proceeding, please consider the following:
+        
+        - Have you checked if the mod is on the latest version? The latest version can be found [here](https://stackoverflow.com/questions/64373516/github-actions-you-have-an-error-in-your-yaml-syntax).
+        
+        - Please also check if the issue has already been reported.
 
----
+        
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: >-
+        Describe the issue in as much detail as possible. This section should contain what behavior you expect and why you believe the actual behavior is a bug. If this issue only occurs with specific mods installed, provide their names and versions.
 
-**Describe the bug**
-A clear and concise description of what the bug is.
-
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
-
-**Expected behavior**
-A clear and concise description of what you expected to happen.
-
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
-
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
-
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
-
-**Additional context**
-Add any other context about the problem here.
+        **Hint:** If you have any additional information, such as screenshots or videos, that you feel would help explain the issue, please attach them here.
+    validations:
+      required: true
+  
+  - type: textarea
+    id: description-reproduction-steps
+    attributes:
+      label: Reproduction Steps
+      description: >-
+        Please provide detailed instructions on how to reproduce the bug. Make sure your instructions are clear and concise, as other people will need to follow them to recreate the issue.
+        
+        **Hint:** A common way to fill this section out is to write a step-by-step guide.
+    validations:
+      required: true
+      
+  - type: textarea
+    id: log-file
+    attributes:
+      label: Log File
+      description: >-
+        **Hint:** You can usually find the log files within the folder `.minecraft/logs`. Most often, you will want the `latest.log`
+        file, since that file belongs to the last played session of the game.
+      placeholder: >-
+        Drag-and-drop the log file here.
+    validations:
+      required: true
