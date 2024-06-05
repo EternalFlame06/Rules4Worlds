@@ -6,3 +6,6 @@ They will integrate with the existing ones, requiring no additional changes.
 > Check out the [wiki](https://github.com/EternalFlame06/Rules4Worlds/wiki) to learn more about how to use the library
 
 > Also, if you want to report bugs, request a new feature or suggest an improvement, feel free to use the [issues tracker](https://github.com/EternalFlame06/Rules4Worlds/issues)
+
+## Notice
+This mod uses the [GSON](https://github.com/google/gson/) library to parse the config file.
