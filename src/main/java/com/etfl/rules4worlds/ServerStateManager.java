@@ -1,7 +1,6 @@
 package com.etfl.rules4worlds;
 
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.PersistentState;
@@ -26,7 +25,7 @@ class ServerStateManager extends PersistentState {
     }
 
     @Override
-    public NbtCompound writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+    public NbtCompound writeNbt(NbtCompound nbt) {
         configManager.toNbt(nbt);
 
         return nbt;
@@ -58,7 +57,7 @@ class ServerStateManager extends PersistentState {
         var state = persistentStateManager.getOrCreate(
                 new Type<>(
                         () -> new ServerStateManager(configManager),
-                        (nbt, registryLookup) -> ServerStateManager.fromNbt(nbt, configManager),
+                        nbt -> ServerStateManager.fromNbt(nbt, configManager),
                         null
                 ), configManager.modID + "_rules");
 
