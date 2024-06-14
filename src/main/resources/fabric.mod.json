@@ -3,7 +3,7 @@
 	"id": "rules4worlds",
 	"version": "${mod_version}",
 	"name": "Rules4Worlds",
-	"description": "A library mod for creating world specific gamerules.",
+	"description": "A library mod for creating world-specific gamerules.",
 	"authors": [
 		"EternalFlame06!"
 	],
@@ -18,7 +18,7 @@
 	"depends": {
 		"fabricloader": ">=${loader_version}",
 		"minecraft": "${minecraft_version}",
-		"java": ">=21",
+		"java": ">=17",
 		"fabric-api": "*"
 	}
 }
