@@ -30,13 +30,24 @@ fabricApi {
 }
 
 dependencies {
-	// To change the versions see the gradle.properties file
-	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-
-	// Fabric API. This is technically optional, but you probably want it anyway.
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+	if (minecraft_version == "1.20.5") {
+		minecraft "com.mojang:minecraft:1.20.5"
+		mappings "net.fabricmc:yarn:1.20.5+build.1:v2"
+		modImplementation "net.fabricmc:fabric-loader:0.15.11"
+		modImplementation "net.fabricmc.fabric-api:fabric-api:0.97.8+1.20.5"
+	}
+	if (minecraft_version == "1.20.6") {
+		minecraft "com.mojang:minecraft:1.20.6"
+		mappings "net.fabricmc:yarn:1.20.6+build.3:v2"
+		modImplementation "net.fabricmc:fabric-loader:0.15.11"
+		modImplementation "net.fabricmc.fabric-api:fabric-api:0.100.4+1.20.6"
+	}
+	if (minecraft_version == "1.21") {
+		minecraft "com.mojang:minecraft:1.21"
+		mappings "net.fabricmc:yarn:1.21+build.7:v2"
+		modImplementation "net.fabricmc:fabric-loader:0.15.11"
+		modImplementation "net.fabricmc.fabric-api:fabric-api:0.100.4+1.21"
+	}
 }
 
 /*shadowJar {
@@ -48,12 +59,16 @@ dependencies {
 processResources {
 	inputs.property "mod_version", project.version
 	inputs.property "minecraft_version", project.minecraft_version
+	inputs.property "min_minecraft_version", project.min_minecraft_version
+	inputs.property "max_minecraft_version", project.max_minecraft_version
 	inputs.property "loader_version", project.loader_version
 	filteringCharset "UTF-8"
 
 	filesMatching("fabric.mod.json") {
 		expand "mod_version": project.version,
 				"minecraft_version": project.minecraft_version,
+				"min_minecraft_version": project.min_minecraft_version,
+				"max_minecraft_version": project.max_minecraft_version,
 				"loader_version": project.loader_version
 	}
 }
