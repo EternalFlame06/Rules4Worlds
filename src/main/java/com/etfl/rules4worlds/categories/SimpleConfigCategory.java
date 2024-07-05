@@ -4,7 +4,6 @@ import com.etfl.rules4worlds.ConfigComponent;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.command.ServerCommandSource;
-import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -41,7 +40,7 @@ public class SimpleConfigCategory implements ConfigCategory {
      * @param name the name of the category
      * @see SimpleConfigCategory#SimpleConfigCategory(String, String)
      */
-    public SimpleConfigCategory(@NotNull @NotBlank String name) {
+    public SimpleConfigCategory(@NotNull String name) {
         this(name, name);
     }
 
@@ -50,7 +49,7 @@ public class SimpleConfigCategory implements ConfigCategory {
      * @param name the name of the category
      * @param commandName the command of the category in the command tree of the config
      */
-    public SimpleConfigCategory(@NotNull @NotBlank String name, @NotNull @NotBlank String commandName) {
+    public SimpleConfigCategory(@NotNull String name, @NotNull String commandName) {
         this.name = name;
         this.commandName = commandName;
     }

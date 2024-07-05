@@ -30,21 +30,21 @@ fabricApi {
 }
 
 dependencies {
+	minecraft "com.mojang:minecraft:${minecraft_version}"
 	modImplementation "net.fabricmc:fabric-loader:0.15.11"
-	if (minecraft_version == "1.20.2") {
-		minecraft "com.mojang:minecraft:1.20.2"
-		mappings "net.fabricmc:yarn:1.20.2+build.4:v2"
-		modImplementation "net.fabricmc.fabric-api:fabric-api:0.91.6+1.20.2"
-	}
-	if (minecraft_version == "1.20.3") {
-		minecraft "com.mojang:minecraft:1.20.3"
-		mappings "net.fabricmc:yarn:1.20.3+build.1:v2"
-		modImplementation "net.fabricmc.fabric-api:fabric-api:0.91.1+1.20.3"
-	}
-	if (minecraft_version == "1.20.4") {
-		minecraft "com.mojang:minecraft:1.20.4"
-		mappings "net.fabricmc:yarn:1.20.4+build.3:v2"
-		modImplementation "net.fabricmc.fabric-api:fabric-api:0.97.1+1.20.4"
+
+	def versions = [
+		"1.20"   : [yarnVersion: "1.20+build.1", apiVersion: "0.83.0+1.20"],
+		"1.20.1" : [yarnVersion: "1.20.1+build.10", apiVersion: "0.92.2+1.20.1"]
+	]
+
+	def versionConfig = versions[minecraft_version]
+
+	if (versionConfig) {
+		mappings "net.fabricmc:yarn:${versionConfig.yarnVersion}:v2"
+		modImplementation "net.fabricmc.fabric-api:fabric-api:${versionConfig.apiVersion}"
+	} else {
+		throw new GradleException("Unsupported Minecraft version: $minecraft_version")
 	}
 }
 

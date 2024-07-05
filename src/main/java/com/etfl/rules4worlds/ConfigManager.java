@@ -6,7 +6,6 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.MinecraftServer;
-import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -36,7 +35,7 @@ public class ConfigManager {
      * @see ConfigManager#ConfigManager(String, ConfigFactory)
      * @see ConfigManager#ConfigManager(String, String)
      */
-    public ConfigManager(@NotNull @NotBlank final String modID) {
+    public ConfigManager(@NotNull final String modID) {
         this(modID, modID);
     }
 
@@ -49,7 +48,7 @@ public class ConfigManager {
      * @param baseCommand the base command for the config
      * @see ConfigManager#ConfigManager(String, String, ConfigFactory)
      */
-    public ConfigManager(@NotNull @NotBlank final String modID, @NotNull @NotBlank final String baseCommand) {
+    public ConfigManager(@NotNull final String modID, @NotNull final String baseCommand) {
         this(modID, baseCommand, null);
     }
 
@@ -64,7 +63,7 @@ public class ConfigManager {
      * @see ConfigManager#ConfigManager(String, ConfigFactory)
      * @see ConfigManager#ConfigManager(String, String)
      */
-    public ConfigManager(@NotNull @NotBlank final String modID, @Nullable ConfigFactory configFactory) {
+    public ConfigManager(@NotNull final String modID, @Nullable ConfigFactory configFactory) {
         this(modID, modID, configFactory);
     }
 
@@ -77,7 +76,7 @@ public class ConfigManager {
      * @param baseCommand the base command for the config
      * @param configFactory the config factory to use for the {@link ConfigFileManager}
      */
-    public ConfigManager(@NotNull @NotBlank final String modID, @NotNull @NotBlank final String baseCommand, @Nullable ConfigFactory configFactory) {
+    public ConfigManager(@NotNull final String modID, @NotNull final String baseCommand, @Nullable ConfigFactory configFactory) {
         this.modID = modID;
         this.baseCommand = baseCommand;
         this.configFileManager = configFactory != null ? configFactory.create(this::validateOrSetDefault) : null;

@@ -1,6 +1,5 @@
 package com.etfl.rules4worlds.fileManagement;
 
-import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -19,7 +18,7 @@ public class JsonConfigFactory implements ConfigFactory {
      * Creates a new {@code JsonConfigFactory} with the specified {@code configFileName} without the file extension.
      * @param configFileName the name of the config file
      */
-    public JsonConfigFactory(@NotNull @NotBlank String configFileName) {
+    public JsonConfigFactory(@NotNull String configFileName) {
         this.configFileName = configFileName;
     }
 

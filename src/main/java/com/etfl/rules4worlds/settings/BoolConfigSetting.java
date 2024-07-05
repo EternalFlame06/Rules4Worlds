@@ -7,7 +7,6 @@ import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
-import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -34,7 +33,7 @@ public class BoolConfigSetting implements ConfigSetting {
      * @param argumentType the argument type used in the command
      * @param defaultValue the default value of the setting
      */
-    public BoolConfigSetting(@NotNull @NotBlank final String name,
+    public BoolConfigSetting(@NotNull final String name,
                              @NotNull final ArgumentType<Boolean> argumentType,
                              final boolean defaultValue) {
         this.name = name;
