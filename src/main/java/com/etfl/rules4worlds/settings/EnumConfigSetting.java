@@ -5,7 +5,6 @@ import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
-import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -30,7 +29,7 @@ public class EnumConfigSetting<T extends Enum<T> & EnumSettingType<T>> implement
      * @param name the name of the setting
      * @param defaultValue the default value of the setting
      */
-    public EnumConfigSetting(@NotNull @NotBlank final String name,
+    public EnumConfigSetting(@NotNull final String name,
                              @NotNull final T defaultValue) {
         this.name = name;
         this.value = defaultValue;

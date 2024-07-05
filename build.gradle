@@ -31,7 +31,7 @@ fabricApi {
 
 dependencies {
 	minecraft "com.mojang:minecraft:${minecraft_version}"
-	modImplementation "net.fabricmc:fabric-loader:0.15.11"
+	modImplementation "net.fabricmc:fabric-loader:${loader_version}"
 
 	def versions = [
 		"1.20"   : [yarnVersion: "1.20+build.1", apiVersion: "0.83.0+1.20"],
