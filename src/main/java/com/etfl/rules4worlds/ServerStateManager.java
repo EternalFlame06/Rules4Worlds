@@ -10,7 +10,6 @@ import org.jetbrains.annotations.NotNull;
 
 
 class ServerStateManager extends PersistentState {
-
     /**
      * The linked config manager for the server.
      */
