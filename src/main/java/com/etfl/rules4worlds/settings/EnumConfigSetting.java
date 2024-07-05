@@ -5,7 +5,6 @@ import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
-import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -30,7 +29,7 @@ public class EnumConfigSetting<T extends Enum<T> & EnumSettingType<T>> implement
      * @param name the name of the setting
      * @param defaultValue the default value of the setting
      */
-    public EnumConfigSetting(@NotNull @NotBlank final String name,
+    public EnumConfigSetting(@NotNull final String name,
                              @NotNull final T defaultValue) {
         this.name = name;
         this.value = defaultValue;
@@ -111,7 +110,7 @@ public class EnumConfigSetting<T extends Enum<T> & EnumSettingType<T>> implement
      */
     private int get(CommandContext<ServerCommandSource> context) {
         context.getSource().sendFeedback(
-                () -> Text.literal("ConfigSetting" + name + " is currently set to: " + value.toString()).formatted(WHITE),
+                Text.literal("ConfigSetting" + name + " is currently set to: " + value.toString()).formatted(WHITE),
                 false);
 
         return 15;
@@ -129,7 +128,7 @@ public class EnumConfigSetting<T extends Enum<T> & EnumSettingType<T>> implement
         this.value = value;
 
         context.getSource().sendFeedback(
-                () -> Text.literal("ConfigSetting" + name + " is currently set to: " + value.toString()).formatted(WHITE),
+                Text.literal("ConfigSetting" + name + " is currently set to: " + value.toString()).formatted(WHITE),
                 true);
 
         return 15;
@@ -147,7 +146,7 @@ public class EnumConfigSetting<T extends Enum<T> & EnumSettingType<T>> implement
         fromMap(defaultSupplier.get());
 
         context.getSource().sendFeedback(
-                () -> Text.literal("ConfigSetting" + name + " is currently set to: " + value.toString()).formatted(WHITE),
+                Text.literal("ConfigSetting" + name + " is currently set to: " + value.toString()).formatted(WHITE),
                 true);
 
         return 15;

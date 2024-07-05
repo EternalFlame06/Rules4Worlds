@@ -7,7 +7,6 @@ import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
-import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -36,7 +35,7 @@ public class IntConfigSetting implements ConfigSetting {
      * @param argumentType the argument type for the command
      * @param defaultValue the default value of the setting
      */
-    public IntConfigSetting(@NotNull @NotBlank final String name,
+    public IntConfigSetting(@NotNull final String name,
                             @NotNull final ArgumentType<Integer> argumentType,
                             final int defaultValue) {
         this(name, argumentType, defaultValue,
@@ -53,7 +52,7 @@ public class IntConfigSetting implements ConfigSetting {
      * @param defaultValue the default value of the setting
      * @param validator the validator for the value
      */
-    public IntConfigSetting(@NotNull @NotBlank final String name,
+    public IntConfigSetting(@NotNull final String name,
                             @NotNull final ArgumentType<Integer> argumentType,
                             final int defaultValue,
                             @NotNull final IntPredicate validator) {
@@ -138,7 +137,7 @@ public class IntConfigSetting implements ConfigSetting {
      */
     private int get(CommandContext<ServerCommandSource> context) {
         context.getSource().sendFeedback(
-                () -> Text.literal("Setting: " + name + " is currently set to: " + value).formatted(WHITE),
+                Text.literal("Setting: " + name + " is currently set to: " + value).formatted(WHITE),
                 false);
 
         return value > 0 ? 15 : 0;
@@ -162,7 +161,7 @@ public class IntConfigSetting implements ConfigSetting {
         }
 
         context.getSource().sendFeedback(
-                () -> Text.literal("Setting: " + name + " is currently set to: " + value).formatted(WHITE),
+                Text.literal("Setting: " + name + " is currently set to: " + value).formatted(WHITE),
                 valueChanged);
 
         return value > 0 ? 15 : 0;
@@ -180,7 +179,7 @@ public class IntConfigSetting implements ConfigSetting {
         fromMap(defaultSupplier.get());
 
         context.getSource().sendFeedback(
-                () -> Text.literal("Setting: " + name + " is currently set to: " + value).formatted(WHITE),
+                Text.literal("Setting: " + name + " is currently set to: " + value).formatted(WHITE),
                 true);
 
         return 15;

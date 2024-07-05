@@ -7,7 +7,6 @@ import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
-import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -36,7 +35,7 @@ public class LongConfigSetting implements ConfigSetting{
      * @param argumentType the argument type to use for the command
      * @param defaultValue the default value of the setting
      */
-    public LongConfigSetting(@NotNull @NotBlank final String name,
+    public LongConfigSetting(@NotNull final String name,
                              @NotNull final ArgumentType<Long> argumentType,
                              final long defaultValue) {
         this(name, argumentType, defaultValue, argumentType instanceof LongArgumentType ?
@@ -52,7 +51,7 @@ public class LongConfigSetting implements ConfigSetting{
      * @param defaultValue the default value of the setting
      * @param validator the validator for the value
      */
-    public LongConfigSetting(@NotNull @NotBlank final String name,
+    public LongConfigSetting(@NotNull final String name,
                              @NotNull final ArgumentType<Long> argumentType,
                              final long defaultValue,
                              @NotNull final LongPredicate validator) {
@@ -137,7 +136,7 @@ public class LongConfigSetting implements ConfigSetting{
      */
     private int get(CommandContext<ServerCommandSource> context) {
         context.getSource().sendFeedback(
-                () -> Text.literal("ConfigSetting" + name + " is currently set to: " + value).formatted(WHITE),
+                Text.literal("ConfigSetting" + name + " is currently set to: " + value).formatted(WHITE),
                 false);
 
         return value > 0 ? 15 : 0;
@@ -161,7 +160,7 @@ public class LongConfigSetting implements ConfigSetting{
         }
 
         context.getSource().sendFeedback(
-                () -> Text.literal("Setting: " + name + " is currently set to: " + value).formatted(WHITE),
+                Text.literal("Setting: " + name + " is currently set to: " + value).formatted(WHITE),
                 valueChanged);
 
         return value > 0 ? 15 : 0;
@@ -179,7 +178,7 @@ public class LongConfigSetting implements ConfigSetting{
         fromMap(defaultSupplier.get());
 
         context.getSource().sendFeedback(
-                () -> Text.literal("Setting: " + name + " is currently set to: " + value).formatted(WHITE),
+                Text.literal("Setting: " + name + " is currently set to: " + value).formatted(WHITE),
                 true);
 
         return 15;

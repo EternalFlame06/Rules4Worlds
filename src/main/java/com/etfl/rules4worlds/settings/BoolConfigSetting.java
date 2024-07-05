@@ -112,7 +112,7 @@ public class BoolConfigSetting implements ConfigSetting {
      */
     private int get(CommandContext<ServerCommandSource> context) {
         context.getSource().sendFeedback(
-                () -> Text.literal("Setting: " + name + " is currently set to: " + value).formatted(WHITE),
+                Text.literal("Setting: " + name + " is currently set to: " + value).formatted(WHITE),
                 false);
 
         return value ? 15 : 0;
@@ -132,7 +132,7 @@ public class BoolConfigSetting implements ConfigSetting {
         this.value = value;
 
         context.getSource().sendFeedback(
-                () -> Text.literal("Setting: " + name + " is currently set to: " + value).formatted(WHITE),
+                Text.literal("Setting: " + name + " is currently set to: " + value).formatted(WHITE),
                 true);
 
         return value ? 15 : 0;
@@ -150,7 +150,7 @@ public class BoolConfigSetting implements ConfigSetting {
         fromMap(defaultSupplier.get());
 
         context.getSource().sendFeedback(
-                () -> Text.literal("Setting: " + name + " is currently set to: " + value).formatted(WHITE),
+                Text.literal("Setting: " + name + " is currently set to: " + value).formatted(WHITE),
                 true);
 
         return 15;
