@@ -34,9 +34,9 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${loader_version}"
 
 	def versions = [
-			"1.20.2" : [yarnVersion: "1.20.2+build.4", apiVersion: "0.91.6+1.20.2"],
-			"1.20.3" : [yarnVersion: "1.20.3+build.1", apiVersion: "0.91.1+1.20.3"],
-			"1.20.4" : [yarnVersion: "1.20.4+build.3", apiVersion: "0.97.1+1.20.4"]
+		"1.20.2" : [yarnVersion: "1.20.2+build.4", apiVersion: "0.91.6+1.20.2"],
+		"1.20.3" : [yarnVersion: "1.20.3+build.1", apiVersion: "0.91.1+1.20.3"],
+		"1.20.4" : [yarnVersion: "1.20.4+build.3", apiVersion: "0.97.1+1.20.4"]
 	]
 
 	def versionConfig = versions[minecraft_version]
