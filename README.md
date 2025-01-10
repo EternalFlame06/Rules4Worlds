@@ -1,4 +1,4 @@
-`Rules4Worlds` is a library mod for fabric mod developers (currently only on 1.20.6). 
+`Rules4Worlds` is a library mod for fabric mod developers. 
 It enables you to create your own world-specific gamerules including a config file with ease. 
 You can also introduce your own versions of the classes. 
 They will integrate with the existing ones, requiring no additional changes.
